@@ -1,0 +1,46 @@
+
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: backend-app 
+    container_name: backend-srv
+    command: npm run server
+    ports:
+      - "5000:5000"
+    env_file: ./.env
+    environment:
+      - NODE_ENV=production
+      
+    networks:
+      - app-network
+ 
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: frontend-app
+    container_name: frontend-app
+    command: npm start
+    # volumes:
+    #   - ./client/:/usr/app
+    #   - /usr/app/node_modules
+    depends_on:
+      - server
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+
+networks:
+    app-network:
+        driver: bridge
+
+# volumes:
+#     data-volume:
+#     node_modules:
+#     web-root:
+#       driver: local
