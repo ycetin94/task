@@ -2,12 +2,12 @@
 version: '3.8'
 
 services:
-  server:
+  backend-app:
     build:
       context: .
       dockerfile: Dockerfile
     image: backend-app 
-    container_name: backend-srv
+    container_name: backend-app
     command: npm run server
     ports:
       - "5000:5000"
@@ -18,7 +18,7 @@ services:
     networks:
       - app-network
  
-  client:
+  frontend-app:
     build:
       context: ./frontend
       dockerfile: Dockerfile
